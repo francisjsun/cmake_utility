@@ -7,7 +7,14 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGB_DEBUG=1")
 endif()
 
+set(GB_DEFAULT_INSTALL_DIR)
+if(WIN32)
+  set(GB_DEFAULT_INSTALL_DIR "C:/Program\ Files\ (x86)/")
+else()
+  set(GB_DEFAULT_INSTALL_DIR "/usr/local/")
+endif()
 
+include_directories(SYSTEM ${GB_DEFAULT_INSTALL_DIR})
 # search class_name.[h|cpp] in class_dir and add to buffer
 macro(gb_add_class class_name class_dir buffer)
   
