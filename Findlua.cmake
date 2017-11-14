@@ -5,9 +5,9 @@ else()
   set(DEFAULT_INSTALL_DIR "/usr/local/")
 endif()
 
-find_library(lua_libs NAMES lua PATHS ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "lib/lua")
+find_library(lua_libs NAMES lua PATHS ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "lua/lib")
 
-find_path(lua_include_dirs lua.h PATHS ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "include/lua")
+find_path(lua_include_dirs lua.h PATHS ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "lua/include")
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(lua DEFAULT_MSG lua_libs lua_include_dirs)
