@@ -5,10 +5,10 @@ else()
   set(DEFAULT_INSTALL_DIR "/usr/local/")
 endif()
 
-find_library(theron_lib NAMES theron PATH ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "Theron/lib")
-find_library(theron_lib_d NAMES therond PATH ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "Theron/lib")
+find_library(theron_lib NAMES theron PATH ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "Theron")
+find_library(theron_lib_d NAMES therond PATH ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "Theron")
 
-set(theron_include_dir ${DEFAULT_INSTALL_DIR}/Theron/include)
+set(theron_include_dir ${DEFAULT_INSTALL_DIR}/Theron)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(libtheron DEFAULT_MSG theron_lib theron_include_dir)

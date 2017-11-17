@@ -6,10 +6,10 @@ else()
   set(DEFAULT_INSTALL_DIR "/usr/local/")
 endif()
 
-find_library(gbUtils_lib NAMES gbUtils PATHS ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "gbUtils/lib")
-find_library(gbUtils_lib_d NAMES gbUtilsd PATHS ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "gbUtils/lib")
+find_library(gbUtils_lib NAMES gbUtils PATHS ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "gbUtils")
+find_library(gbUtils_lib_d NAMES gbUtilsd PATHS ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "gbUtils")
 
-find_path(gbUtils_include_dir NAMES gbUtilsConfig.h PATHS ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "gbUtils/include")
+find_path(gbUtils_include_dir NAMES gbUtilsConfig.h PATHS ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "gbUtils")
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(gbUtils DEFAULT_MSG gbUtils_lib gbUtils_include_dir)

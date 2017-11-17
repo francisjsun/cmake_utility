@@ -17,7 +17,7 @@ find_package_handle_standard_args(libfreetype DEFAULT_MSG libfreetype_lib libfre
 set(libfreetype_LIBRARIES ${libfreetype_lib})
 set(libfreetype_LIBRARIES_d)
 if(libfreetype_lib_d)
-  set(libfreetype_LIBRARIES_d ${libfreetype_Libd})
+  set(libfreetype_LIBRARIES_d ${libfreetype_Lib_d})
 else()
   message(WARNING "libfreetyped not found")
   set(libfreetype_LIBRARIES_d ${libfreetype_LIBRARIES})

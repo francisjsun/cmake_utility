@@ -9,9 +9,9 @@ endif()
 
 set(GB_DEFAULT_INSTALL_DIR)
 if(WIN32)
-  set(GB_DEFAULT_INSTALL_DIR "C:/Program\ Files\ (x86)/")
+  set(GB_DEFAULT_INSTALL_DIR "C:/Program\ Files\ (x86)")
 else()
-  set(GB_DEFAULT_INSTALL_DIR "/usr/local/")
+  set(GB_DEFAULT_INSTALL_DIR "/usr/local")
 endif()
 
 include_directories(SYSTEM ${GB_DEFAULT_INSTALL_DIR})
