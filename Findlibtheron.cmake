@@ -1,25 +1,20 @@
 #find Theron library
-if(WIN32)
-  set(DEFAULT_INSTALL_DIR "C:/Program\ Files\ (x86)/")
-else()
-  set(DEFAULT_INSTALL_DIR "/usr/local/")
+if(NOT GB_DEFAULT_INSTALL_DIR)
+  message(FATAL_ERROR "GB_DEFAULT_INSTALL_DIR not set")
 endif()
 
-find_library(theron_lib NAMES theron PATH ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "Theron")
-find_library(theron_lib_d NAMES therond PATH ${DEFAULT_INSTALL_DIR} PATH_SUFFIXES "Theron")
+set(lib_name "theron")
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+  set(lib_name "therond")
+endif()
 
-set(theron_include_dir ${DEFAULT_INSTALL_DIR}/Theron)
+find_library(theron_lib NAMES ${lib_name} PATH ${GB_DEFAULT_INSTALL_DIR} PATH_SUFFIXES "Theron")
+
+set(theron_include_dir ${GB_DEFAULT_INSTALL_DIR}/Theron)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(libtheron DEFAULT_MSG theron_lib theron_include_dir)
 
 set(libtheron_LIBRARIES ${theron_lib})
-set(libtheron_LIBRARIES_d)
-if(theron_lib_d)
-  set(libtheron_LIBRARIES_d ${theron_lib_d})
-else()
-  message(WARNING "libtherond not found")
-  set(libtheron_LIBRARIES_d ${libtheron_LIBRARIES})
-endif()
 
 set(libtheron_INCLUDE_DIRS ${theron_include_dir})
