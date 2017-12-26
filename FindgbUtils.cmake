@@ -7,7 +7,7 @@ endif()
 find_library(gbUtils_lib NAMES gbUtils PATHS ${GB_DEFAULT_INSTALL_DIR} PATH_SUFFIXES "gbUtils")
 find_library(gbUtils_lib_d NAMES gbUtilsd PATHS ${GB_DEFAULT_INSTALL_DIR} PATH_SUFFIXES "gbUtils")
 
-find_path(gbUtils_include_dir NAMES gbUtilsConfig.h PATHS ${GB_DEFAULT_INSTALL_DIR} PATH_SUFFIXES "gbUtils")
+find_path(gbUtils_include_dir NAMES config.h PATHS ${GB_DEFAULT_INSTALL_DIR} PATH_SUFFIXES "gbUtils")
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(gbUtils DEFAULT_MSG gbUtils_lib gbUtils_include_dir)
