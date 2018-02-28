@@ -10,8 +10,28 @@ find_library(gbUtils_lib_d NAMES gbUtilsd PATHS ${GB_DEFAULT_INSTALL_DIR} PATH_S
 find_path(gbUtils_include_dir NAMES config.h PATHS ${GB_DEFAULT_INSTALL_DIR} PATH_SUFFIXES "gbUtils")
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(gbUtils DEFAULT_MSG gbUtils_lib gbUtils_include_dir)
 
-set(gbUtils_LIBRARIES ${gbUtils_lib})
-set(gbUtils_LIBRARIES_d ${gbUtils_lib_d})
+set(lib_found)
+if(gbUtils_lib)
+  set(lib_found ${gbUtils_lib})
+endif()
+
+if(gbUtils_lib_d)
+  set(lib_found ${gbUtils_lib})
+endif()
+
+find_package_handle_standard_args(gbUtils DEFAULT_MSG lib_found gbUtils_include_dir)
+
+if(gbUtils_lib)
+  set(gbUtils_LIBRARIES ${gbUtils_lib})
+else()
+  set(gbUtils_LIBRARIES ${gbUtils_lib_d})
+endif()
+
+if(gbUtils_lib_d)
+  set(gbUtils_LIBRARIES_d ${gbUtils_lib_d})
+else()
+  set(gbUtils_LIBRARIES_d ${gbUtils_lib})
+endif()
+
 set(gbUtils_INCLUDE_DIRS ${gbUtils_include_dir})
