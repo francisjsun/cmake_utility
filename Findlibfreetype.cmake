@@ -3,14 +3,10 @@
 if(NOT GB_DEFAULT_INSTALL_DIR)
   message(FATAL_ERROR "GB_DEFAULT_INSTALL_DIR not set")
 endif()
-set(MSVC_COMPILE_ID "MSVC")
-set(libname libfreetype.a)
-if(CMAKE_CXX_COMPILER_ID STREQUAL MSVC_COMPILE_ID)
-  set(libname freetype.lib)
-endif()
 
-find_library(libfreetype_lib NAMES ${libname} PATHS ${GB_DEFAULT_INSTALL_DIR} PATH_SUFFIXES "freetype")
-find_library(libfreetype_lib_d NAMES libfreetyped.a PATHS ${GB_DEFAULT_INSTALL_DIR} PATH_SUFFIXES "freetype")
+find_library(libfreetype_lib NAMES freetype PATHS ${GB_DEFAULT_INSTALL_DIR} PATH_SUFFIXES "freetype")
+
+find_library(libfreetype_lib_d NAMES freetyped PATHS ${GB_DEFAULT_INSTALL_DIR} PATH_SUFFIXES "freetype")
 
 find_path(libfreetype_include_dirs ft2build.h PATHS ${GB_DEFAULT_INSTALL_DIR} PATH_SUFFIXES "freetype")
 
