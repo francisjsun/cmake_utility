@@ -15,15 +15,22 @@ elseif(UNIX)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 endif()
 
-
-set(FS_DEFAULT_INSTALL_DIR)
-if(WIN32)
-  set(FS_DEFAULT_INSTALL_DIR "C:/Program\ Files\ (x86)")
+# Git HEAD version
+find_package(Git)
+if(GIT_FOUND)
+  set(FS_GIT_HEAD_VERSION)
+  execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse --short HEAD
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    OUTPUT_VARIABLE FS_GIT_HEAD_VERSION)
+  
+  # remove trial '\n' of the output variable
+  string(REGEX REPLACE "\n$" "" FS_GIT_HEAD_VERSION ${FS_GIT_HEAD_VERSION})
+  
+  message("Git HEAD version: " ${FS_GIT_HEAD_VERSION})
 else()
-  set(FS_DEFAULT_INSTALL_DIR "/usr/local")
+  set(FS_GIT_HEAD_VERSION "unknown")
 endif()
 
-include_directories(SYSTEM ${FS_DEFAULT_INSTALL_DIR})
 # search class_name.[h|cpp] in class_dir and add to buffer
 macro(fs_add_class class_name class_dir buffer)
   
