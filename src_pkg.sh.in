@@ -1,0 +1,66 @@
+# Copyright (c) 2019, F.S.. All rights reserved.
+
+#!/bin/bash
+
+echo "******** FS PKG ********"
+echo "Copyright (c) 2019, F.S.. All rights reserved."
+echo "******** packing @FS_PKG_NAME@ ********"
+pkg_root_dir=@CMAKE_CURRENT_SOURCE_DIR@
+
+# pkg dir
+pkg_name=_@FS_PKG_NAME@_pkg_
+pkg_dir=$pkg_root_dir/$pkg_name
+pkg_header_dir=$pkg_dir/include
+pkg_lib_dir=$pkg_dir/lib
+
+mkdir -p $pkg_header_dir
+mkdir -p $pkg_lib_dir
+
+# @param 1:cp_src_dir, 2:cp_files, 3:cp_dst_dir
+pkg_cp_files()
+{
+    old_pwd=$PWD
+    
+    cp_src_dir=$1
+    cp_files=$2
+    cp_dst_dir=$3
+
+    cd $cp_src_dir
+
+    cp_files=${cp_files//$cp_src_dir/"."} # change cp_src_dir to relative dir
+
+    IFS=";"
+    for file in $cp_files
+    do
+        cp -v --parents $file $cp_dst_dir
+    done
+
+    cd $old_pwd
+}
+
+# headers
+pkg_header_root_dir=@FS_PKG_HEADER_ROOT_DIR@ # root dir for cp header
+pkg_headers="@FS_PKG_HEADERS@"
+pkg_cp_files $pkg_header_root_dir $pkg_headers $pkg_header_dir
+
+# libs
+pkg_lib_root_dir=@FS_PKG_LIB_ROOT_DIR@ # root dir for cp lib
+pkg_libs="@FS_PKG_LIBS@"
+pkg_cp_files $pkg_lib_root_dir $pkg_libs $pkg_lib_dir
+
+# miscs
+pkg_misc_root_dir=@FS_PKG_MISC_ROOT_DIR@ # root dir for cp misc
+pkg_miscs="@FS_PKG_MISCS@"
+pkg_cp_files $pkg_misc_root_dir $pkg_miscs $pkg_dir
+
+# archive to xz file
+echo "pkg_: $pkg_root_dir/${pkg_name}.tar.xz"
+cd $pkg_dir
+pkg_file_name=@FS_PKG_NAME@.tar.xz
+touch ./$pkg_file_name
+tar --exclude=$pkg_file_name -cvJf ./$pkg_file_name ./
+
+mv -v ./$pkg_file_name $pkg_root_dir/
+
+echo "******** ${pkg_root_dir}/${pkg_file_name} generated. ********"
+echo "******** end of packing @FS_PKG_NAME@ ********"
