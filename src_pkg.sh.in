@@ -28,7 +28,8 @@ pkg_cp_files()
     cd $cp_src_dir
 
     cp_files=${cp_files//$cp_src_dir/"."} # change cp_src_dir to relative dir
-
+    
+    old_ifs=$IFS
     IFS=";"
     for file in $cp_files
     do
@@ -36,6 +37,7 @@ pkg_cp_files()
     done
 
     cd $old_pwd
+    IFS=$old_ifs
 }
 
 # headers
@@ -54,7 +56,6 @@ pkg_miscs="@FS_PKG_MISCS@"
 pkg_cp_files $pkg_misc_root_dir $pkg_miscs $pkg_dir
 
 # archive to xz file
-echo "pkg_: $pkg_root_dir/${pkg_name}.tar.xz"
 cd $pkg_dir
 pkg_file_name=@FS_PKG_NAME@.tar.xz
 touch ./$pkg_file_name
