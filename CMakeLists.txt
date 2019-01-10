@@ -99,7 +99,7 @@ endfunction()
 # "h1;h2;..."
 # </user>
 # </inc_dir>
-function(fs_gen_fsinc_dir_file)
+function(fs_gen_fs_proj)
   
   configure_file(${FS_CMAKE_DIR}/fs_proj.xml.in ${CMAKE_CURRENT_SOURCE_DIR}/fs_proj.xml @ONLY)
   
