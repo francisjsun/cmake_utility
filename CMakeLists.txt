@@ -27,6 +27,16 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
+#set bin suffix
+set(FS_BIN_NAME_SUFFIX)
+set(FS_BIN_STATIC_SUFFIX)
+set(FS_BIN_SHARED_SUFFIX)
+if(MSVC)
+  set(FS_BIN_NAME_SUFFIX "_msvc_" ${MSVC_VERSION})
+  set(FS_BIN_STATIC_SUFFIX "lib")
+  set(FS_BIN_SHARED_SUFFIX "dll")
+endif()
+
 # Git HEAD version
 set(GIT_UNKNOWN_VERSION "NA")
 find_package(Git)
@@ -43,7 +53,7 @@ if(GIT_FOUND)
   # remove trial '\n' of the output variable
   string(REGEX REPLACE "\n$" "" FS_GIT_HEAD_VERSION ${FS_GIT_HEAD_VERSION})
   
-  message("Git HEAD version: " ${FS_GIT_HEAD_VERSION})
+  message(STATUS "Git HEAD version: " ${FS_GIT_HEAD_VERSION})
 else()
   set(FS_GIT_HEAD_VERSION "unknown")
 endif()
@@ -108,17 +118,17 @@ function(fs_gen_fs_proj)
 endfunction()
 
 # @note all dirs and files should be full path
-function(fs_gen_fs_pkg_sh pkg_name pkg_header_root_dir pkg_headers)
+function(fs_gen_fs_pkg_sh pkg_name pkg_header_root_dir pkg_header_pattern)
   set(FS_PKG_NAME ${pkg_name})
   set(FS_PKG_HEADER_ROOT_DIR ${pkg_header_root_dir})
-  set(FS_PKG_HEADERS "${${pkg_headers}}")
+  set(FS_PKG_HEADER_PATTERN "${pkg_header_pattern}")
 
   if(${ARGC} EQUAL 5)
     set(FS_PKG_LIB_ROOT_DIR ${ARGV3})
-    set(FS_PKG_LIBS "${${ARGV4}}")
+    set(FS_PKG_LIB_PATTERN "${ARGV4}")
   elseif(${ARGC} EQUAL 7)
     set(FS_PKG_MISC_ROOT_DIR ${ARGV5})
-    set(FS_PKG_MISCS "${${ARGV6}}")
+    set(FS_PKG_MISC_PATTERN "${ARGV6}")
   elseif(NOT ${ARGC} EQUAL 3)
     message(FATAL_ERROR "wrong number of arguments for funciton: fs_gen_fs_pkg_sh")
   endif()

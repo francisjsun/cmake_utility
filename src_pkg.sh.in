@@ -22,38 +22,40 @@ pkg_cp_files()
     old_pwd=$PWD
     
     cp_src_dir=$1
-    cp_files=$2
+    cp_file_pattern=$2
     cp_dst_dir=$3
 
     cd $cp_src_dir
 
-    cp_files=${cp_files//$cp_src_dir/"."} # change cp_src_dir to relative dir
-    
-    old_ifs=$IFS
-    IFS=";"
-    for file in $cp_files
-    do
-        cp -v --parents $file $cp_dst_dir
-    done
+    find . -name "$cp_file_pattern" -print0 | xargs -0 -i{} cp -v --parents {} $cp_dst_dir
 
+    # cp_files=${cp_files//$cp_src_dir/"."} # change cp_src_dir to relative dir
+    
+    # old_ifs=$IFS
+    # IFS=";"
+    # for file in $cp_files
+    # do
+    #     cp -v --parents $file $cp_dst_dir
+    # done
+    # IFS=$old_ifs
+    
     cd $old_pwd
-    IFS=$old_ifs
 }
 
 # headers
 pkg_header_root_dir=@FS_PKG_HEADER_ROOT_DIR@ # root dir for cp header
-pkg_headers="@FS_PKG_HEADERS@"
-pkg_cp_files $pkg_header_root_dir $pkg_headers $pkg_header_dir
+pkg_header_pattern="@FS_PKG_HEADER_PATTERN@"
+pkg_cp_files $pkg_header_root_dir $pkg_header_pattern $pkg_header_dir
 
 # libs
 pkg_lib_root_dir=@FS_PKG_LIB_ROOT_DIR@ # root dir for cp lib
-pkg_libs="@FS_PKG_LIBS@"
-pkg_cp_files $pkg_lib_root_dir $pkg_libs $pkg_lib_dir
+pkg_lib_pattern="@FS_PKG_LIB_PATTERN@"
+pkg_cp_files $pkg_lib_root_dir $pkg_lib_pattern $pkg_lib_dir
 
 # miscs
 pkg_misc_root_dir=@FS_PKG_MISC_ROOT_DIR@ # root dir for cp misc
-pkg_miscs="@FS_PKG_MISCS@"
-pkg_cp_files $pkg_misc_root_dir $pkg_miscs $pkg_dir
+pkg_misc_pattern="@FS_PKG_MISC_PATTERN@"
+pkg_cp_files $pkg_misc_root_dir $pkg_misc_pattern $pkg_dir
 
 # archive to xz file
 cd $pkg_dir
