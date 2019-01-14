@@ -10,6 +10,13 @@ pkg_root_dir=@CMAKE_CURRENT_SOURCE_DIR@
 # pkg dir
 pkg_name=_@FS_PKG_NAME@_pkg_
 pkg_dir=$pkg_root_dir/$pkg_name
+if [ -d "$pkg_dir" ]
+then
+    echo "******** remove existed dir: $pkg_dir ********"
+    rm -rfv $pkg_dir
+    echo "******** end of removing existed dir: $pkg_dir ********"
+fi
+
 pkg_header_dir=$pkg_dir/include
 pkg_lib_dir=$pkg_dir/lib
 
