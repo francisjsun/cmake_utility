@@ -1,7 +1,7 @@
 # Copyright (c) 2019, F.S.. All rights reserved.
 #!/bin/bash
 pkg_name=fsCMake
-pkg_files="CMakeLists.txt src_pkg.sh.in"
+pkg_files="CMakeLists.txt src_pkg.sh.in fs_proj.xml.in"
 
 echo "******** packing fsCMake... ********"
 
