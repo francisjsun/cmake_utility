@@ -29,12 +29,12 @@ pkg_cp_files()
     old_pwd=$PWD
     
     cp_src_dir=$1
-    cp_file_pattern=$2
+    cp_file_regex=$2
     cp_dst_dir=$3
 
     cd $cp_src_dir
 
-    find . -name "$cp_file_pattern" -print0 | xargs -0 -i{} cp -v --parents {} $cp_dst_dir
+    find . -regex "$cp_file_regex" -print0 | xargs -0 -i{} cp -v --parents {} $cp_dst_dir
 
     # cp_files=${cp_files//$cp_src_dir/"."} # change cp_src_dir to relative dir
     
@@ -51,18 +51,18 @@ pkg_cp_files()
 
 # headers
 pkg_header_root_dir=@FS_PKG_HEADER_ROOT_DIR@ # root dir for cp header
-pkg_header_pattern="@FS_PKG_HEADER_PATTERN@"
-pkg_cp_files $pkg_header_root_dir $pkg_header_pattern $pkg_header_dir
+pkg_header_regex="@FS_PKG_HEADER_REGEX@"
+pkg_cp_files $pkg_header_root_dir $pkg_header_regex $pkg_header_dir
 
 # libs
 pkg_lib_root_dir=@FS_PKG_LIB_ROOT_DIR@ # root dir for cp lib
-pkg_lib_pattern="@FS_PKG_LIB_PATTERN@"
-pkg_cp_files $pkg_lib_root_dir $pkg_lib_pattern $pkg_lib_dir
+pkg_lib_regex="@FS_PKG_LIB_REGEX@"
+pkg_cp_files $pkg_lib_root_dir $pkg_lib_regex $pkg_lib_dir
 
 # miscs
 pkg_misc_root_dir=@FS_PKG_MISC_ROOT_DIR@ # root dir for cp misc
-pkg_misc_pattern="@FS_PKG_MISC_PATTERN@"
-pkg_cp_files $pkg_misc_root_dir $pkg_misc_pattern $pkg_dir
+pkg_misc_regex="@FS_PKG_MISC_REGEX@"
+pkg_cp_files $pkg_misc_root_dir $pkg_misc_regex $pkg_dir
 
 # archive to xz file
 cd $pkg_dir
