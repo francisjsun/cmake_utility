@@ -1,10 +1,8 @@
 <!-- Copyright (c) 2019, F.S.. All rights reserved. -->
 
-<inc_dir>
-<sys>
-"@FS_SYS_INC_DIRS@"
-</sys>
-<user>
-"@FS_USER_INC_DIRS@"
-</user>
-</inc_dir>
+<fs>
+  <inc_dir sys="@FS_SYS_INC_DIRS@"
+           user="@FS_USER_INC_DIRS@" />
+  
+  <src file="@FS_SRCS@" />
+</fs>

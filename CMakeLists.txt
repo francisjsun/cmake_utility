@@ -101,21 +101,11 @@ endfunction()
 
 
 # fs c++ proj include file(fs_proj.xml)
-# <inc_dir>
-# <sys>
-# "h1;h2;..."
-# </sys>
-# <user>
-# "h1;h2;..."
-# </user>
-# </inc_dir>
-function(fs_gen_fs_proj)
-  
+macro(fs_gen_fs_proj srcs)
+  set(FS_SRCS ${${srcs}})
   configure_file(${FS_CMAKE_DIR}/fs_proj.xml.in ${CMAKE_CURRENT_SOURCE_DIR}/fs_proj.xml @ONLY)
-  
   message(STATUS "${CMAKE_CURRENT_SOURCE_DIR}/fs_proj.xml generated.")
-  
-endfunction()
+endmacro()
 
 # @note all dirs and files should be full path
 function(fs_gen_fs_pkg_sh pkg_name pkg_header_root_dir pkg_header_regex)
