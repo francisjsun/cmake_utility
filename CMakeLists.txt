@@ -84,23 +84,23 @@ endmacro()
 set(FS_SYS_INC_DIRS)
 set(FS_USER_INC_DIRS)
 # include sys directories
-function(fs_add_sys_include_dir path)
+macro(fs_add_sys_include_dir path)
   set(abs_path ${CMAKE_CURRENT_SOURCE_DIR}/${path})
   list(APPEND FS_SYS_INC_DIRS ${abs_path})
   include_directories(SYSTEM ${abs_path})
-endfunction()
+endmacro()
 
 # include user directories
-function(fs_add_user_include_dir path)
+macro(fs_add_user_include_dir path)
   set(abs_path ${CMAKE_CURRENT_SOURCE_DIR}/${path})
   list(APPEND FS_USER_INC_DIRS ${abs_path})
   include_directories(${abs_path})
-endfunction()
+endmacro()
 
 # add visual studio $(VC_IncludePath),$(WindowsSDK_IncludePath) to FS_SYS_INC_DIRS
-function(fs_add_vs_default_sys_include_dir abs_path)
+macro(fs_add_vs_default_sys_include_dir abs_path)
   list(APPEND FS_SYS_INC_DIRS ${abs_path})
-endfunction()
+endmacro()
 
 
 # fs c++ proj include file(fs_proj.xml)
