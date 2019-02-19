@@ -17,7 +17,7 @@ then
     echo "******** end of removing existed dir: $pkg_dir ********"
 fi
 
-pkg_header_dir=$pkg_dir/include
+pkg_header_dir=$pkg_dir/include/@FS_PKG_NAME@
 pkg_lib_dir=$pkg_dir/lib
 
 mkdir -p $pkg_header_dir
