@@ -74,3 +74,5 @@ mv -v ./$pkg_file_name $pkg_root_dir/
 
 echo "******** ${pkg_root_dir}/${pkg_file_name} generated. ********"
 echo "******** end of packing @FS_PKG_NAME@ ********"
+
+cd -
