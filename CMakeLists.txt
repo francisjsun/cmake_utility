@@ -63,7 +63,7 @@ else()
 endif()
 
 # Git HEAD version
-set(GIT_UNKNOWN_VERSION "NA")
+set(FS_GIT_UNKNOWN_VERSION "NA")
 find_package(Git)
 if(GIT_FOUND)
   set(FS_GIT_HEAD_VERSION)
@@ -73,17 +73,17 @@ if(GIT_FOUND)
     ERROR_VARIABLE FS_GIT_ERROR)
 
   if(FS_GIT_ERROR)
-    set(FS_GIT_HEAD_VERSION ${GIT_UNKNOWN_VERSION})
+    set(FS_GIT_HEAD_VERSION ${FS_GIT_UNKNOWN_VERSION})
   endif()
-  # remove trial '\n' of the output variable
+  # remove the trailing '\n' of the output variable
   string(REGEX REPLACE "\n$" "" FS_GIT_HEAD_VERSION ${FS_GIT_HEAD_VERSION})
   
   message(STATUS "Git HEAD version: " ${FS_GIT_HEAD_VERSION})
 else()
-  set(FS_GIT_HEAD_VERSION "unknown")
+  set(FS_GIT_HEAD_VERSION ${FS_GIT_UNKNOWN_VERSION})
 endif()
 
-# search class_name.h|cpp] in class_dir and add to buffer
+# search class_name.(h)|(cpp) in class_dir and add to buffer
 macro(fs_add_class class_name class_dir buffer)
   
   set(src_file ${CMAKE_CURRENT_SOURCE_DIR}/${class_dir}/${class_name}.cpp)
@@ -107,14 +107,26 @@ set(FS_SYS_INC_DIRS)
 set(FS_USER_INC_DIRS)
 # include sys directories
 macro(fs_add_sys_include_dir target path)
-  set(abs_path ${CMAKE_CURRENT_SOURCE_DIR}/${path})
+  set(options ABS_PATH)
+  cmake_parse_arguments("FS" "${options}" "" "" ${ARGN})
+  if(NOT FS_ABS_PATH)
+    set(abs_path ${CMAKE_CURRENT_SOURCE_DIR}/${path})
+  else()
+    set(abs_path ${path})
+  endif()
   list(APPEND FS_SYS_INC_DIRS ${abs_path})
   target_include_directories(${target} SYSTEM PRIVATE ${abs_path})
 endmacro()
 
 # include user directories
 macro(fs_add_user_include_dir target path)
-  set(abs_path ${CMAKE_CURRENT_SOURCE_DIR}/${path})
+  set(options ABS_PATH)
+  cmake_parse_arguments("FS" "${options}" "" "" ${ARGN})
+  if(NOT FS_ABS_PATH)
+    set(abs_path ${CMAKE_CURRENT_SOURCE_DIR}/${path})
+  else()
+    set(abs_path ${path})
+  endif()
   list(APPEND FS_USER_INC_DIRS ${abs_path})
   target_include_directories(${target} PRIVATE ${abs_path})
 endmacro()
