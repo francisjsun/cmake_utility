@@ -1,0 +1,6 @@
+* fsCMake
+** TODO-v1.1.0[4/4][100%]
++ [X] FS_PKG_BIN_STATIC_SUFFIX_REGEX, FS_PKG_BIN_SHARED_SUFFIX_REGEX
++ [X] fs_gen_configure_file, config.h.in
++ [X] FS_TIME_YEAR
++ [X] build.sh

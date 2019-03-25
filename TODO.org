@@ -1,1 +1,0 @@
-fs_gen_bin_suffix(bin_type)

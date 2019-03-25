@@ -3,18 +3,17 @@
 cmake_minimum_required(VERSION 3.0.2)
 
 set(FS_CMAKE_DIR ${CMAKE_CURRENT_LIST_DIR})
+string(TIMESTAMP FS_TIME_YEAR "%Y")
 
+# compiler flags
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 endif()
-
-
 
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DFS_DEBUG=1")
 endif()
-
 
 option(FS_CMAKE_MSVC_MD "using dynamic run-time library" ON)
 if(WIN32)
@@ -30,6 +29,27 @@ elseif(UNIX)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 endif()
 
+# configure file
+# NOTE! PROJECT_NAME should be UPPERCASE word
+function(fs_gen_configure_file PROJECT_NAME)
+  if(NOT EXISTS ${CMAKE_SOURCE_DIR}/config.h.in OR FS_NEW_CONFIG_H_IN)
+    set(_FS_VERSION_MAJOR_ FS_${PROJECT_NAME}_VERSION_MAJOR)
+    set(_FS_VERSION_MINOR_ FS_${PROJECT_NAME}_VERSION_MINOR)
+    set(_FS_BUILD_VERSION_ FS_${PROJECT_NAME}_BUILD_VERSION)
+    set(_FS_CMAKE_DEFINE_FS_STATIC_LIB_ "#cmakedefine FS_${PROJECT_NAME}_STATIC_LIB")
+    set(_FS_STATIC_LIB_ FS_${PROJECT_NAME}_STATIC_LIB)
+    set(_FS_SHARED_LIB_ FS_${PROJECT_NAME}_SHARED_LIB)
+    set(_FS_CLASS_ FS_${PROJECT_NAME}_CLASS)
+    set(_FS_STRUCT_ FS_${PROJECT_NAME}_STRUCT)
+    set(_FS_EXPORT_ FS_${PROJECT_NAME}_EXPORT)
+
+    configure_file(${FS_CMAKE_DIR}/config.h.in ${CMAKE_SOURCE_DIR}/config.h.in)
+  endif()
+endfunction()
+
+# build.sh
+configure_file(${FS_CMAKE_DIR}/build.sh ${CMAKE_SOURCE_DIR}/build.sh)
+
 # set output directory
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/bin)
@@ -41,7 +61,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 #set bin suffix
 set(FS_BIN_NAME_SUFFIX)
 set(FS_BIN_STATIC_SUFFIX "a")
+set(FS_PKG_BIN_STATIC_SUFFIX_REGEX ".*\\.a$")
 set(FS_BIN_SHARED_SUFFIX "so")
+set(FS_PKG_BIN_SHARED_SUFFIX_REGEX ".*\\.so$")
+
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*GNU.*")
   set(FS_BIN_NAME_SUFFIX "_gnu")
 elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang.*")
@@ -57,7 +80,9 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES ".*MSVC.*")
     set(FS_BIN_NAME_SUFFIX ${FS_BIN_NAME_SUFFIX}_MT)
   endif()
   set(FS_BIN_STATIC_SUFFIX "lib")
+  set(FS_PKG_BIN_STATIC_SUFFIX_REGEX ".*\\.lib$")
   set(FS_BIN_SHARED_SUFFIX "dll")
+  set(FS_PKG_BIN_SHARED_SUFFIX_REGEX "\\(.*\\.dll$\\)\\|\\(.*\\.lib$\\)")
 else()
   message(FATAL_ERROR "unknown compiler id: " ${CMAKE_CXX_COMPILER_ID})
 endif()
