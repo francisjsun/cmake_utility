@@ -9,6 +9,7 @@ help-msg()
     echo "-r: build release only"
     echo "-p: build both release and debug, then pkg"
     echo "-c: clean"
+    echo "-g: generate build system only, cached cmake variables will be used"
 
 }
 
@@ -24,6 +25,9 @@ fs_cmake_flags="-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
 case $1 in
     -h)
         help-msg
+        ;;
+    -g)
+        cmake ..
         ;;
     -r)
         cmake $fs_cmake_flags -DCMAKE_BUILD_TYPE=Release .. && cmake --build .
