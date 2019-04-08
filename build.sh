@@ -18,6 +18,8 @@ then
     mkdir build
 fi
 
+old_cwd=$PWD
+
 cd build
 
 fs_cmake_flags="-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
@@ -44,3 +46,5 @@ case $1 in
         cmake $fs_cmake_flags -DCMAKE_BUILD_TYPE=Debug .. && cmake --build .
         ;;
 esac
+
+cd $old_cwd
