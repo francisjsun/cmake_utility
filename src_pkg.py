@@ -6,48 +6,43 @@ import re
 
 
 def find(path, regex):
-    ret = []
+    files = []
+    dirs = []
     if os.path.isdir(path):
-        files = os.listdir(path)
-        finder = re.compile(regex)
-        for f in files:
+        cur_files = os.listdir(path)
+        if isinstance(regex, str):
+            regex = re.compile(regex)
+        for f in cur_files:
             full_path = os.path.join(path, f)
             if os.path.isdir(full_path):
-                print(full_path)
-                ret.extend(find(full_path, regex))
+                dirs.append(full_path)
+                sub_files, sub_dis = find(full_path, regex)
+                files.extend(sub_files)
+                dirs.extend(sub_dis)
             else:
-                if finder.match(f):
-                    ret.append(full_path)
-    return ret
+                if regex.match(f):
+                    files.append(full_path)
+    return (files, dirs)
 
 
-def ignore_func(path, files):
-    ret = []
-    regex = re.compile(".*\\.h$")
+def copy_full_path(src_root, regex, dst_root):
+    files, dirs = find(src_root, regex)
+    # create dir if not exists
+    for d in dirs:
+        dst_dir = os.path.join(dst_root, d[len(src_root) + 1:])
+        if not os.path.isdir(dst_dir):
+            os.makedirs(dst_dir)
+
     for f in files:
-        if os.path.isfile(os.path.join(path, f)):
-            if not regex.match(f):
-                ret.append(f)
-                print(f)
-    return ret
+        if os.path.isfile(f):
+            dst_path = os.path.join(dst_root, f[len(src_root) + 1:])
+            shutil.copy(f, dst_path)
 
 
 if __name__ == "__main__":
-    # "_@FS_PKG_NAME@_pkg_"
-    pkg_name_tmp_dir = "_test_pkg_"
-    if os.path.isdir(pkg_name_tmp_dir):
-        shutil.rmtree(pkg_name_tmp_dir)
-    os.mkdir(pkg_name_tmp_dir)
-    # "include/@FS_PKG_NAME@"
-    header_dir = pkg_name_tmp_dir + "/include/Sun"
-    # if not os.path.isdir(header_dir):
-    #     os.makedirs(header_dir)
-    shutil.copytree("src", header_dir,
-                    ignore=ignore_func)
-
-    # headers = find("src", ".*\\.h$")
-    # for h in headers:
-    #     print(h)
-    #     shutil.copy(h, header_dir)
-    # lib_dir = pkg_name_tmp_dir + "/lib"
-    # os.mkdir("lib")
+    # create tmp dir
+    tmp_pkg_dir = "_proj_name_"
+    if os.path.isdir(tmp_pkg_dir):
+        shutil.rmtree(tmp_pkg_dir)
+    os.mkdir(tmp_pkg_dir)
+    copy_full_path("src", ".*\\.h$", tmp_pkg_dir)
