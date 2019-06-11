@@ -3,6 +3,7 @@
 import os
 import shutil
 import re
+import tarfile
 
 
 def find(path, regex):
@@ -26,6 +27,9 @@ def find(path, regex):
 
 
 def copy_full_path(src_root, regex, dst_root):
+    if not os.path.isdir(dst_root):
+        os.makedirs(dst_root)
+
     files, dirs = find(src_root, regex)
     # create dir if not exists
     for d in dirs:
@@ -39,10 +43,25 @@ def copy_full_path(src_root, regex, dst_root):
             shutil.copy(f, dst_path)
 
 
-if __name__ == "__main__":
+def pkg():
     # create tmp dir
-    tmp_pkg_dir = "_proj_name_"
-    if os.path.isdir(tmp_pkg_dir):
-        shutil.rmtree(tmp_pkg_dir)
-    os.mkdir(tmp_pkg_dir)
-    copy_full_path("src", ".*\\.h$", tmp_pkg_dir)
+    proj_name = '@FS_PKG_NAME@'
+    pkg_dir = proj_name
+    if os.path.isdir(pkg_dir):
+        shutil.rmtree(pkg_dir)
+    pkg_path = proj_name + '.tar.xz'
+    header_pkg_dir = os.path.join(pkg_dir, 'include', proj_name)
+    lib_pkg_dir = os.path.join(pkg_dir, 'lib')
+    copy_full_path('@FS_PKG_HEADER_ROOT_DIR@', r'.*\.h$', header_pkg_dir)
+    copy_full_path('@FS_PKG_LIB_ROOT_DIR@', r'@FS_PKG_LIB_REGEX@', lib_pkg_dir)
+
+    if os.path.isfile(pkg_path):
+        os.remove(pkg_path)
+    with tarfile.open(pkg_path, 'x:xz') as f:
+        f.add(pkg_dir)
+
+    print("end of packing @path: ", os.path.abspath(pkg_dir))
+
+
+if __name__ == "__main__":
+    pkg()

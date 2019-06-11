@@ -5,11 +5,14 @@ import shutil
 import argparse
 import subprocess
 import sys
+import fs_pkg
+
 # import tarfile
 
 
 def clean():
-    shutil.rmtree("build")
+    if os.path.isdir("build"):
+        shutil.rmtree("build")
 
 
 def build(build_type="Debug"):
@@ -43,8 +46,9 @@ if __name__ == "__main__":
 
         if not opt.p:
             build()
+            os.chdir(old_cwd)
         else:
             build("Debug")
             build("Release")
-
-        os.chdir(old_cwd)
+            os.chdir(old_cwd)
+            fs_pkg.pkg()
