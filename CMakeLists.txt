@@ -170,7 +170,7 @@ macro(fs_gen_fs_proj srcs)
 endmacro()
 
 # @note all dirs and files should be full path
-function(fs_gen_fs_pkg_sh pkg_name pkg_header_root_dir)
+function(fs_gen_fs_pkg_py pkg_name pkg_header_root_dir)
   set(FS_PKG_NAME ${pkg_name})
   set(FS_PKG_HEADER_ROOT_DIR ${pkg_header_root_dir})
   set(FS_PKG_HEADER_REGEX "${pkg_header_regex}")
