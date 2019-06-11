@@ -5,7 +5,7 @@ import shutil
 import argparse
 import subprocess
 import sys
-import fs_pkg
+
 
 # import tarfile
 
@@ -51,4 +51,5 @@ if __name__ == "__main__":
             build("Debug")
             build("Release")
             os.chdir(old_cwd)
+            import fs_pkg
             fs_pkg.pkg()
