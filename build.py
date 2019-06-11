@@ -18,7 +18,7 @@ def clean():
 def build(build_type="Debug"):
     if sys.platform == "win32":
         subprocess.run(["cmake", ".."])
-        subprocess.run("cmake", "--build", ".", "--config", build_type)
+        subprocess.run(["cmake", "--build", ".", "--config", build_type])
     else:
         cmake_build_type_arg = str.format("-DCMAKE_BUILD_TYPE={0}",
                                           build_type)
