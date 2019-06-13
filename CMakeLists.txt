@@ -186,5 +186,5 @@ function(fs_gen_fs_pkg_py pkg_name pkg_header_root_dir)
   endif()
   
   configure_file(${FS_CMAKE_DIR}/src_pkg.py.in ${CMAKE_CURRENT_SOURCE_DIR}/fs_pkg.py @ONLY)
-  message(STATUS "${CMAKE_CURRENT_SOURCE_DIR}/fs_pkg.sh generated.")
+  message(STATUS "${CMAKE_CURRENT_SOURCE_DIR}/fs_pkg.py generated.")
 endfunction()
