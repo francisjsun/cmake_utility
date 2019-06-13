@@ -47,9 +47,6 @@ function(fs_gen_configure_file PROJECT_NAME)
   endif()
 endfunction()
 
-# build.sh
-configure_file(${FS_CMAKE_DIR}/build.sh ${CMAKE_SOURCE_DIR}/build.sh)
-
 # set output directory
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/bin)
