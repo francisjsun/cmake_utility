@@ -10,5 +10,5 @@ CTestTestfile.cmake
 
 *~
 
-fsCMake.*
-fsCMake/
+cmake_utility.*
+cmake_utility/
