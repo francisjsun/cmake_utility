@@ -7,7 +7,7 @@ string(TIMESTAMP FS_TIME_YEAR "%Y")
 
 # compiler flags
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pedantic -pthread")
 endif()
 
 if(NOT CMAKE_BUILD_TYPE)
