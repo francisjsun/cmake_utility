@@ -6,7 +6,7 @@ import shutil
 
 if __name__ == "__main__":
     pkg_files = ['CMakeLists.txt', 'src_pkg.py.in', 'fs_proj.xml.in',
-                 'build.py', 'build.sh']
+                 'build.py']
     pkg_name = 'cmake_utility'
     if os.path.isdir(pkg_name):
         shutil.rmtree(pkg_name)
