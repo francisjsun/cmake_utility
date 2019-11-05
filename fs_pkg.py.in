@@ -27,10 +27,15 @@ def find(path, regex):
 
 
 def copy_full_path(src_root, regex, dst_root):
+    files, dirs = find(src_root, regex)
+    # if no file found, return without creating the dst_root dir
+    if len(files) == 0:
+        return
+    
     if not os.path.isdir(dst_root):
         os.makedirs(dst_root)
 
-    files, dirs = find(src_root, regex)
+
     # create dir if not exists
     for d in dirs:
         dst_dir = os.path.join(dst_root, d[len(src_root) + 1:])
