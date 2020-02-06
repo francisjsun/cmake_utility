@@ -10,5 +10,4 @@ CTestTestfile.cmake
 
 *~
 
-cmake_utility.*
-cmake_utility/
+*.swp
