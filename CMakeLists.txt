@@ -1,13 +1,13 @@
 # Copyright (C) 2020 Francis Sun, all rights reserved.
 
 ### Options
-# * FS_VESTA_USE_MULTI_THREADS Toggle for whether using multi-threads
 # * FS_VESTA_USE_MSVC_MD Option for whether using /MD compiler flag on MSVC
 
 ### Variables
-# * FS_VESTA_BIN_NAME_SUFFIX Suffix contains infos about compiler id or x64, M[DT] for
-# MSVC 
-# * FS_VESTA_PKG_(STATIC|SHARED)_LIB_FILENAME_REGEX Two REGEXs for packing usage
+# * FS_VESTA_BIN_NAME_SUFFIX Suffix contains infos about compiler id or x64, 
+# M[DT] for MSVC 
+# * FS_VESTA_PKG_(STATIC|SHARED)_LIB_FILENAME_REGEX Two REGEXs for packing 
+# usage
 # * FS_VESTA_GIT_HEAD_VERSION Git HEAD version
 
 ### Functions
@@ -19,14 +19,9 @@ cmake_minimum_required(VERSION 3.0)
 
 set(FS_VESTA_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-option(FS_VESTA_USE_MULTI_THREADS "Use multi-threads?" OFF)
-
 # compiler flags
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++11 -pedantic")
-  if(FS_VESTA_USE_MULTI_THREADS)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
-  endif()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++11 -pedantic -pthread")
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_CRT_SECURE_NO_WARNINGS=1")
 
