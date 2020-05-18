@@ -16,10 +16,10 @@ if __name__ == "__main__":
     # create the dir pkg_name
     os.mkdir(pkg_name)
 
-    #copy pkg_files into the dir pkg_name
+    # copy pkg_files into the dir pkg_name
     for pkg_file in pkg_files:
         shutil.copy(pkg_file, pkg_name)
-        
+
     pkg_path = 'vesta.tar.xz'
 
     # rm the file if it exists
