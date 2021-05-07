@@ -1,4 +1,4 @@
-# Copyright (C) 2020 Francis Sun, all rights reserved.
+# Copyright (C) 2021 Francis Sun, all rights reserved.
 
 ### Options
 # * FS_VESTA_USE_MSVC_MD Option for whether using /MD compiler flag on MSVC
@@ -21,7 +21,7 @@ set(FS_VESTA_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 # compiler flags
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++14 -pedantic -pthread")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -std=c++14 -pedantic -pthread")
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_CRT_SECURE_NO_WARNINGS=1")
 
@@ -37,10 +37,21 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
 endif()
 
 
+# predefined macro
+# debug
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DFS_VESTA_DEBUG=1")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DFS_VESTA_DEBUG")
 endif()
+# os
+set(FS_VESTA_OS_NAME ${CMAKE_SYSTEM_NAME})
+if(UNIX)
+  set(FS_VESTA_OS_PREDEFINED_MACRO "-DFS_VESTA_OS_UNIX")
+elseif(WIN32)
+  set(FS_VESTA_OS_PREDEFINED_MACRO "-DFS_VESTA_OS_WINDOWS")
+endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FS_VESTA_OS_PREDEFINED_MACRO}")
 
 
 # set output directory
@@ -144,14 +155,19 @@ function(FS_VESTA_GENERATE_VESTA_PKG PKG_NAME PKG_HEADER_ROOT_DIR)
   message(STATUS "${CMAKE_SOURCE_DIR}/${FS_VESTA_PKG_FILE} has been generated.")
 endfunction()
 
-# Gnerate a config.h.in file
-# TODO fs_vesta_generate_config_h by using ${PROJECT_VERSION}
-function(FS_VESTA_GENERATE_CONFIG_H_IN MACRO_PREFIX)
+# Gnerate a config.h file
+function(FS_VESTA_GENERATE_CONFIG_H MACRO_PREFIX)
   string(TOUPPER ${MACRO_PREFIX} MACRO_PREFIX_UPPERCASE)
   set(FS_VESTA_MACRO_PREFIX ${MACRO_PREFIX_UPPERCASE})
-  set(FS_VESTA_CMAKEDEFINE_STATIC_LIB 
-    "#cmakedefine ${MACRO_PREFIX_UPPERCASE}_STATIC_LIB")
-  set(FS_VESTA_CONFIG_H_IN "config.h.in")
-  configure_file(${FS_VESTA_DIR}/${FS_VESTA_CONFIG_H_IN}.in 
-    ${CMAKE_SOURCE_DIR}/${FS_VESTA_CONFIG_H_IN} @ONLY)
+  set(FS_VESTA_MACRO_PREFIX_NAME "")
+  if(${ARGC} EQUAL 2)
+    set(FS_VESTA_MACRO_PREFIX_NAME ${ARGV1})
+  endif()
+  set(FS_VESTA_CONFIG_H_DST_DIR "src")
+  if(${ARGC} EQUAL 3)
+    set(FS_VESTA_CONFIG_H_DST_DIR ${ARGV2})
+  endif()
+  set(FS_VESTA_CONFIG_H "config.h")
+  configure_file(${FS_VESTA_DIR}/${FS_VESTA_CONFIG_H}.in 
+    ${CMAKE_SOURCE_DIR}/${FS_VESTA_CONFIG_H_DST_DIR}/${FS_VESTA_CONFIG_H} @ONLY)
 endfunction()
