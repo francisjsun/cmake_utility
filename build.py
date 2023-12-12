@@ -13,15 +13,19 @@ def _clean():
 
 
 def _build(build_type="Debug"):
-    if sys.platform == "win32":
-        subprocess.run(["cmake", "-S", ".", "-B", "build"])
-        subprocess.run(["cmake", "--build", "build", "--config", build_type])
-    else:
-        cmake_build_type_arg = str.format("-DCMAKE_BUILD_TYPE={0}",
-                                          build_type)
-        subprocess.run(["cmake", cmake_build_type_arg,
-                        "-S", ".", "-B", "build"])
-        subprocess.run(["cmake", "--build", "build"])
+    try:
+        if sys.platform == "win32":
+            subprocess.run(["cmake", "-S", ".", "-B", "build"])
+            subprocess.run(
+                ["cmake", "--build", "build", "--config", build_type])
+        else:
+            cmake_build_type_arg = str.format("-DCMAKE_BUILD_TYPE={0}",
+                                              build_type)
+            subprocess.run(["cmake", cmake_build_type_arg,
+                            "-S", ".", "-B", "build"])
+            subprocess.run(["cmake", "--build", "build"])
+    except Exception as e:
+        print(str(e))
 
 
 def main():

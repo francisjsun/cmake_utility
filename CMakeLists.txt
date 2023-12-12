@@ -21,9 +21,9 @@ set(FS_VESTA_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 # compiler flags
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -std=c++14 -pedantic -pthread")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wconversion -std=c++17 -pedantic -pthread")
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_CRT_SECURE_NO_WARNINGS=1")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /WX /Zc:preprocessor /std:c++17 -D_CRT_SECURE_NO_WARNINGS=1")
 
   # M[DT]
   option(FS_VESTA_USE_MSVC_MD "using dynamic run-time library" ON)
