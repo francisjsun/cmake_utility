@@ -15,7 +15,7 @@
 # * fs_vesta_generate_config_h_in
 
 
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.6)
 
 set(FS_VESTA_DIR ${CMAKE_CURRENT_LIST_DIR})
 
